@@ -1,0 +1,47 @@
+# Parameters of the real gas for dynamic calculation (balloon inflow or outflow)
+
+# Dimensions :
+#     - VOLUME      = [m^3/kg]
+#     - PRESSURE    = [Pa]
+#     - TEMPERATURE = [K]
+#     - MOLECULAR_M = [kg/mol]
+#     - ADIABATIC_I = [1]
+#     - HEAT_CAP_V  = [J/(kg*K)]
+#     - ACENTRIC_F  = [1]
+#     - CAPACITY    = [m^3]
+#     - NOZZLE_SQ   = [m^2]
+
+# Constant gas parameters
+  # Parameters in K point 
+  VOLUME      = 0.00617
+  PRESSURE    = 4641000
+  TEMPERATURE = 190.66
+
+  # Another constants
+  MOLECULAR_MASS      = 16.043 
+  ADIABATIC_INDEX     = 1.3
+  HEAT_CAPACITY_AT_CONSTANT_VOLUME = 1700 
+  ACENTRIC_FACTOR     = 0.010
+
+# Parameters of the balloon
+  CAPACITY      = 28.872
+  NOZZLE_SQUARE = 0.000785
+
+# Gas parameters in the balloon
+  VOLUME      = 0.0 
+  PRESSURE    = 2.5e7
+  TEMPERATURE = 293
+
+# Gas parameters out of the balloon
+  VOLUME      = 0.0
+  PRESSURE    = 2.0e5
+  TEMPERATURE = 253
+ 
+# Set the function to set parameters in/out the balloon (P - p(v,t),V - v(p,t))
+  FUNCTION = V 
+
+# Set the equation of state (IDEAL_GAS, REDLICH_KWONG, PENG_ROBINSON)
+  EQUATION = PENG_ROBINSON
+
+# Type of the flow [ IN, OUT] balloon
+  FLOW = OUT
