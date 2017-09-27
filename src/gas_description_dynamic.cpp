@@ -2,19 +2,25 @@
 #include "models_exceptions.h"
 
 #include <cmath>
+#include <utility>
 
 //================================
 // gasparameters_dynamic ctor
 //================================
 
-real_gas_models::gasparameters_dynamic::gasparameters_dynamic(float v, float p, float t,
-                                                              std::shared_ptr<constgasparameters> cgp)
-  :current_vpte_(v,p,t),previous_vpte_(v,p,t),constparameters_(cgp) {
-  if ((v<=0.0)||(p<=0.0)||(t<=0.0)||
-                  (!std::isfinite(v))||(!std::isfinite(p))||(!std::isfinite(t)))
-    throw modelExceptions("gasparameters_dynamic::gasparameters_dynamic: bad input parameters v,p or t");
-  if (cgp==nullptr)
-    throw modelExceptions("gasparameters_dynamic::gasparameters_dynamic gets nullptr");
+real_gas_models::gasparameters_dynamic::gasparameters_dynamic(
+                                    float v, float p, float t,
+                      std::shared_ptr<constgasparameters> cgp)
+  :current_vpte_(v, p, t), previous_vpte_(v, p, t), constparameters_(cgp) {
+  bool isValid = true;
+  for (const auto &x : {v, p, t})
+    isValid &= ((x > 0.0) && std::isfinite(x));
+  if (!isValid)
+    throw modelExceptions("gasparameters_dynamic::gasparameters_dynamic:\
+                           bad input parameters v,p or t");
+  if (cgp == nullptr)
+    throw modelExceptions(
+        "gasparameters_dynamic::gasparameters_dynamic gets nullptr");
 }
 
 //================================
@@ -22,23 +28,29 @@ real_gas_models::gasparameters_dynamic::gasparameters_dynamic(float v, float p, 
 //================================
 
 real_gas_models::gasparameters_dynamic::gasparameters_dynamic(parameters prs,
-                                                              std::shared_ptr<constgasparameters> cgp)
-  :current_vpte_(prs),previous_vpte_(prs),constparameters_(cgp) {
-  if ((prs.volume<=0.0)||(prs.volume<=0.0)||(prs.temperature<=0.0)||
-                  (!std::isfinite(prs.volume))||(!std::isfinite(prs.pressure))||(!std::isfinite(prs.temperature)))
-    throw modelExceptions("gasparameters_dynamic::gasparameters_dynamic: bad input parameters v,p or t");
-  if (cgp==nullptr)
-    throw modelExceptions("gasparameters_dynamic::gasparameters_dynamic gets nullptr");
+                                       std::shared_ptr<constgasparameters> cgp)
+  :current_vpte_(prs), previous_vpte_(prs), constparameters_(cgp) {
+  bool isValid = true;
+  for (const auto &x : {prs.volume, prs.pressure, prs.temperature})
+    isValid &= ((x > 0.0) && std::isfinite(x));
+  if (!isValid)
+    throw modelExceptions(
+        "gasparameters_dynamic::gasparameters_dynamic:\
+         bad input parameters v, p or t");
+  if (cgp == nullptr)
+    throw modelExceptions(
+        "gasparameters_dynamic::gasparameters_dynamic gets nullptr");
 }
 
 //================================
 // potentials operator <<
 //================================
 
-std::ostream &real_gas_models::operator<<(std::ostream &outstream, const potentials &pt) {
+std::ostream &real_gas_models::operator<< (std::ostream &outstream,
+                                              const potentials &pt) {
   outstream << "h: " << pt.enthalpy << " u: " << pt.internalenergy
-            << " Gibbs: "<<pt.Gibbsfree << "\n Hermholtz: "
-            << pt.Hermholtz_free << " Landau-Grand: " << pt.LandauGrand<<"\n";
+            << " Gibbs: " << pt.Gibbsfree << "\n Hermholtz: "
+            << pt.Hermholtz_free << " Landau-Grand: " << pt.LandauGrand << "\n";
   return outstream;
 }
 
@@ -94,15 +106,18 @@ float real_gas_models::gasparameters_dynamic::cgetTemperature() const {
   return current_vpte_.temperature;
 }
 
-real_gas_models::state_phase real_gas_models::gasparameters_dynamic::cgetState() const {
+real_gas_models::state_phase
+real_gas_models::gasparameters_dynamic::cgetState() const {
   return sph_;
 }
 
-real_gas_models::parameters real_gas_models::gasparameters_dynamic::cgetParameters() const {
+real_gas_models::parameters
+real_gas_models::gasparameters_dynamic::cgetParameters() const {
   return parameters(current_vpte_);
 }
 
-std::shared_ptr<real_gas_models::constgasparameters> real_gas_models::gasparameters_dynamic::cgetConstparameters() const {
+std::shared_ptr<real_gas_models::constgasparameters>
+real_gas_models::gasparameters_dynamic::cgetConstparameters() const {
   return constparameters_;
 }
 
@@ -110,20 +125,23 @@ std::shared_ptr<real_gas_models::constgasparameters> real_gas_models::gasparamet
 // gasparameters_dynamic csetParameters
 //================================
 
-void real_gas_models::gasparameters_dynamic::csetParameters(float v, float p, float t, state_phase sp) {
-  std::swap(current_vpte_,previous_vpte_);
-  current_vpte_.volume        =v;
-  current_vpte_.pressure      =p;
-  current_vpte_.temperature   =t;
-  sph_                        =sp;
-  //updatePotentials();
+void real_gas_models::gasparameters_dynamic::csetParameters(float v, float p,
+                                                     float t, state_phase sp) {
+  std::swap(current_vpte_, previous_vpte_);
+  current_vpte_.volume       = v;
+  current_vpte_.pressure     = p;
+  current_vpte_.temperature  = t;
+  sph_                       = sp;
+  // updatePotentials();
 }
 
 //================================
 // gasparameters_dynamic operator <<
 //================================
 
-std::ostream &real_gas_models::operator<<(std::ostream &outstream, const gasparameters_dynamic &gp) {
-  outstream<< "v: " << gp.cgetVolume() << " p: " << gp.cgetPressure() << " t: " <<gp.cgetTemperature() << "\n";
+std::ostream &real_gas_models::operator<< (std::ostream &outstream,
+                                   const gasparameters_dynamic &gp) {
+  outstream << "v: " << gp.cgetVolume() << " p: " << gp.cgetPressure()
+                    << " t: " << gp.cgetTemperature() << "\n";
   return outstream;
 }

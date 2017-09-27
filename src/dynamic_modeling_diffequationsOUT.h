@@ -1,10 +1,9 @@
-#ifndef DYNAMIC_MODELING_DIFFEQUATIONSOUT_H
-#define DYNAMIC_MODELING_DIFFEQUATIONSOUT_H
+#ifndef SRC_DYNAMIC_MODELING_DIFFEQUATIONSOUT_H_
+#define SRC_DYNAMIC_MODELING_DIFFEQUATIONSOUT_H_
 
 #include "dynamic_modeling_diffequations.h"
 
 namespace real_gas_models {
-
   class idealGas;
   class Redlich_Kwong2;
   class Peng_Robinson;
@@ -16,10 +15,11 @@ namespace real_gas_models {
   struct OUTdXdtIdGas: dXdt {
   private:
     idealGas &mg_;
-  public:
-    OUTdXdtIdGas (idealGas &mg,const balloon &bl, gasparameters &outbl);
 
-    void operator ()(const difresult_t &x, difresult_t &dxdt, float=0);
+  public:
+    OUTdXdtIdGas(idealGas &mg, const balloon &bl, gasparameters &outbl);
+
+    void operator() (const difresult_t &x, difresult_t &dxdt, float = 0);
   };
 
   //================================
@@ -29,11 +29,12 @@ namespace real_gas_models {
   struct OUTdXdtRK2: dXdt {
   private:
     Redlich_Kwong2 &mg_;
-    const float a_,b_;
+    const float a_, b_;
+  
   public:
-    OUTdXdtRK2 (Redlich_Kwong2 &mg,const balloon &bl, gasparameters &outbl);
+    OUTdXdtRK2(Redlich_Kwong2 &mg, const balloon &bl, gasparameters &outbl);
 
-    void operator ()(const difresult_t &x, difresult_t &dxdt, float=0);
+    void operator() (const difresult_t &x, difresult_t &dxdt, float = 0);
   };
 
   //================================
@@ -43,13 +44,14 @@ namespace real_gas_models {
   struct OUTdXdtPR: dXdt {
   private:
     Peng_Robinson &mg_;
-    const float a_,b_,k_;
-  public:
-    OUTdXdtPR (Peng_Robinson &mg,const balloon &bl, gasparameters &outbl);
+    const float a_, b_, k_;
 
-    void operator ()(const difresult_t &x, difresult_t &dxdt, float=0);
+  public:
+    OUTdXdtPR(Peng_Robinson &mg, const balloon &bl, gasparameters &outbl);
+
+    void operator() (const difresult_t &x, difresult_t &dxdt, float = 0);
   };
 }
 
-#endif // DYNAMIC_MODELING_DIFFEQUATIONSOUT_H
+#endif  // SRC_DYNAMIC_MODELING_DIFFEQUATIONSOUT_H_
 

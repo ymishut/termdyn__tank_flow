@@ -1,8 +1,7 @@
-#ifndef LOAD_CONFIG
-#define LOAD_CONFIG
+#ifndef SRC_LOAD_CONFIG_H_
+#define SRC_LOAD_CONFIG_H_
 
 namespace real_gas_models {
-
   //================================
   // SetConfigure
   //================================
@@ -12,10 +11,11 @@ namespace real_gas_models {
 
     static void loadConf();
     SetConfigure() {}
+
   public:
     static void setConf();
   };
-}
+}  // namespace real_gas_models
 
-#endif // LOAD_CONFIG
+#endif  // SRC_LOAD_CONFIG_H_
 

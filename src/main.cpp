@@ -24,7 +24,7 @@ int main() {
     std::cout << e.what() <<std::endl;
     return 1;
   }
-//  std::shared_ptr<constgasparameters> cgp (constgasparameters::getInstance(0.00617,4641000.0,190.66,16.04,1.3,1700,0.01));
+ // std::shared_ptr<constgasparameters> cgp (constgasparameters::getInstance(0.00617,4641000.0,190.66,16.04,1.3,1700,0.01));
 
 //  std::shared_ptr<Equation_of_state> PengRobinModel(new Peng_Robinson_equation());
 //  std::shared_ptr<Equation_of_state> RedKwModel(new Redlich_Kwong_equation());

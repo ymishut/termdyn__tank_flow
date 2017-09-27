@@ -1,5 +1,7 @@
-#ifndef MODEL_REDLICH_KWONG_H
-#define MODEL_REDLICH_KWONG_H
+#ifndef SRC_MODEL_REDLICH_KWONG_H_
+#define SRC_MODEL_REDLICH_KWONG_H_
+
+#include <memory>
 
 #include "model_general.h"
 
@@ -22,16 +24,15 @@ namespace real_gas_models {
   public:
     bool isValid() const;
     void dynamicflowAccept(class DerivateFunctor &df);
-    void setVolume(float p,float t);
-    void setPressure(float v,float t);
-    float getVolume(float p,float t)    const;
-    float getPressure(float v,float t)  const;
+    void setVolume(float p, float t);
+    void setPressure(float v, float t);
+    float getVolume(float p, float t)    const;
+    float getPressure(float v, float t)  const;
 
     float getCoefA()   const;
     float getCoefB()   const;
-
   };
-}
+}  // namespace real_gas_models
 
-#endif // MODEL_REDLICH_KWONG_H
+#endif  // SRC_MODEL_REDLICH_KWONG_H_
 

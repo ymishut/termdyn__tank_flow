@@ -1,14 +1,14 @@
-#ifndef DYNAMIC_MODELING_MODELS
-#define DYNAMIC_MODELING_MODELS
+#ifndef SRC_DYNAMIC_MODELING_MODELS_H_
+#define SRC_DYNAMIC_MODELING_MODELS_H_
 
 #include <memory>
 #include <functional>
+
 #include <boost/array.hpp>
 
 #include "dynamic_modeling_diffequations.h"
 
 namespace real_gas_models {
-
   struct balloon;
   class gasparameters;
   class modelGeneral;
@@ -21,8 +21,8 @@ namespace real_gas_models {
   //================================
 
   struct dXdtobserver {
-    std::shared_ptr <modelGeneral> pmg_;
-    void operator ()(const difresult_t &x, float t);
+    std::shared_ptr<modelGeneral> pmg_;
+    void operator() (const difresult_t &x, float t);
     explicit dXdtobserver(std::shared_ptr <modelGeneral> &pmg);
   };
 
@@ -35,16 +35,16 @@ namespace real_gas_models {
     gasparameters &outbl_;
 
   public:
-    static constexpr int pressCoef = -1;                              // process will stoped then pressure in balloon will be
-    difEquat_t derivfunc_;                                                //    equal outbl_.pressure*0.98
+    static constexpr int pressCoef = -1;
+    difEquat_t derivfunc_;             
 
   public:
-    DerivateFunctorInflow(const balloon &bl, gasparameters &outbl, modelGeneral* pmg);
+    DerivateFunctorInflow(const balloon &bl, gasparameters &outbl,
+                                                 modelGeneral *pmg);
 
-    void getFunctor( idealGas &mg);
-    void getFunctor( Redlich_Kwong2 &mg);
-    void getFunctor( Peng_Robinson &mg);
-
+    void getFunctor(idealGas &mg);
+    void getFunctor(Redlich_Kwong2 &mg);
+    void getFunctor(Peng_Robinson &mg);
   };
 
   //================================
@@ -60,13 +60,14 @@ namespace real_gas_models {
     difEquat_t derivfunc_;
 
   public:
-    DerivateFunctorOutflow(const balloon &bl, gasparameters &outbl, modelGeneral* pmg);
+    DerivateFunctorOutflow(const balloon &bl, gasparameters &outbl,
+                                                  modelGeneral *pmg);
 
-    void getFunctor( idealGas &mg);
-    void getFunctor( Redlich_Kwong2 &mg);
-    void getFunctor( Peng_Robinson &mg);
+    void getFunctor(idealGas &mg);
+    void getFunctor(Redlich_Kwong2 &mg);
+    void getFunctor(Peng_Robinson &mg);
   };
-}
+}  // namespace real_gas_models
 
-#endif // DYNAMIC_MODELING_MODELS
+#endif  // SRC_DYNAMIC_MODELING_MODELS_H_
 

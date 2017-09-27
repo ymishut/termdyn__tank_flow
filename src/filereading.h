@@ -1,14 +1,14 @@
-#ifndef FILEREADING
-#define FILEREADING
+#ifndef SRC_FILEREADING_H_
+#define SRC_FILEREADING_H_
 
 #include <string>
 #include <vector>
 #include <exception>
 #include <fstream>
+
 #include <boost/noncopyable.hpp>
 
 namespace real_gas_models {
-
   //================================
   // ReadFile
   //================================
@@ -25,7 +25,6 @@ namespace real_gas_models {
 
   public:
     std::vector<std::string> parseFile(std::ifstream &instream);
-
   };
 
   //================================
@@ -34,6 +33,7 @@ namespace real_gas_models {
 
   class ReadFile::ReadFileError: public std::exception {
     std::string message_;
+
   public:
     ReadFileError(int linnum, std::string message);
 
@@ -42,7 +42,7 @@ namespace real_gas_models {
     }
     ~ReadFileError() noexcept {}
   };
-}
+}  // namespace real_gas_models
 
-#endif // FILEREADING
+#endif  // SRC_FILEREADING_H_
 

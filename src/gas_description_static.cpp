@@ -5,29 +5,36 @@
 // gasparameters ctor
 //================================
 
-real_gas_models::gasparameters::gasparameters(float v, float p, float t, std::shared_ptr<constgasparameters> cgp)
-  :vpte_(v,p,t),constparameters_(cgp) {
-  if(cgp==nullptr)
-    throw modelExceptions("gasparameters_static::gasparameters_static gets nullptr to constgasparameters");
+real_gas_models::gasparameters::gasparameters(float v, float p, float t,
+                                  std::shared_ptr<constgasparameters> cgp)
+  :vpte_(v, p, t), constparameters_(cgp) {
+  if (cgp == nullptr)
+    throw modelExceptions(
+        "gasparameters_static::gasparameters_static\
+         gets nullptr to constgasparameters");
 }
 
 //================================
 // gasparameter ctor
 //================================
 
-real_gas_models::gasparameters::gasparameters(real_gas_models::parameters prs, std::shared_ptr<constgasparameters> cgp)
-  :vpte_(prs),constparameters_(cgp) {
-  if(cgp==nullptr)
-    throw modelExceptions("gasparameters_static::gasparameters_static gets nullptr to constgasparameters");
+real_gas_models::gasparameters::gasparameters(real_gas_models::parameters prs,
+                                        std::shared_ptr<constgasparameters> cgp)
+  :vpte_(prs), constparameters_(cgp) {
+  if (cgp == nullptr)
+    throw modelExceptions(
+        "gasparameters_static::gasparameters_static\
+         gets nullptr to constgasparameters");
 }
 
 //================================
 // gasparameter operator <<
 //================================
 
-
-std::ostream &real_gas_models::operator<<(std::ostream &outstream, const gasparameters &gp) {
-  outstream<< "v: " << gp.cgetVolume() << " p: " << gp.cgetPressure() << " t: " <<gp.cgetTemperature() << "\n";
+std::ostream &real_gas_models::operator<< (std::ostream &outstream,
+                                           const gasparameters &gp) {
+  outstream << "v: " << gp.cgetVolume() << " p: " << gp.cgetPressure()
+            << " t: " << gp.cgetTemperature() << "\n";
   return outstream;
 }
 
@@ -83,15 +90,18 @@ float real_gas_models::gasparameters::cgetTemperature() const {
   return vpte_.temperature;
 }
 
-real_gas_models::state_phase real_gas_models::gasparameters::cgetState() const {
+real_gas_models::state_phase
+real_gas_models::gasparameters::cgetState() const {
   return sph_;
 }
 
-real_gas_models::parameters real_gas_models::gasparameters::cgetParameters() const {
+real_gas_models::parameters
+real_gas_models::gasparameters::cgetParameters() const {
   return parameters(vpte_);
 }
 
-std::shared_ptr<real_gas_models::constgasparameters> real_gas_models::gasparameters::cgetConstparameters() const {
+std::shared_ptr<real_gas_models::constgasparameters>
+real_gas_models::gasparameters::cgetConstparameters() const {
   return constparameters_;
 }
 
@@ -99,9 +109,10 @@ std::shared_ptr<real_gas_models::constgasparameters> real_gas_models::gasparamet
 // gasparameter::csetParameters
 //================================
 
-void real_gas_models::gasparameters::csetParameters(float v, float p, float t, state_phase sp) {
-  vpte_.volume            = v;
-  vpte_.pressure          = p;
-  vpte_.temperature       = t;
-  sph_                    = sp;
+void real_gas_models::gasparameters::csetParameters(float v, float p, float t,
+                                                               state_phase sp) {
+  vpte_.volume        = v;
+  vpte_.pressure      = p;
+  vpte_.temperature   = t;
+  sph_                = sp;
 }

@@ -12,9 +12,9 @@
 void real_gas_models::ReadFile::lineProcessing() {
   if (line_.empty())
     ++currentLine_;
-  else if (line_[0] == '#'){
+  else if (line_[0] == '#') {
       ++currentLine_;
-      line_="";
+      line_ = "";
     } else {
       size_t strIter = line_.find('=');
       if (strIter == line_.size())
@@ -29,12 +29,13 @@ void real_gas_models::ReadFile::lineProcessing() {
 // ReadFile::parseFile
 //================================
 
-std::vector<std::string> real_gas_models::ReadFile::parseFile(std::ifstream &instream) {
+std::vector<std::string> real_gas_models::ReadFile::parseFile(
+                                      std::ifstream &instream) {
   std::vector <std::string> lines;
   try {
-    while(true) {
+    while (true) {
         instream >> std::ws;
-        if (!std::getline(instream,line_))
+        if (!std::getline(instream, line_))
           break;
         lineProcessing();
         if (!line_.empty())
@@ -44,8 +45,8 @@ std::vector<std::string> real_gas_models::ReadFile::parseFile(std::ifstream &ins
     std::cout << e.what()<< std::endl;
     throw modelExceptions(" Bad input data");
   }
-  for (auto &x: lines) {
-      x.erase(std::remove_if(x.begin(),x.end(),isspace),x.end());
+  for (auto &x : lines) {
+      x.erase(std::remove_if(x.begin(), x.end(), isspace), x.end());
     }
   return lines;
 }
@@ -54,5 +55,6 @@ std::vector<std::string> real_gas_models::ReadFile::parseFile(std::ifstream &ins
 // ReadFileError ctor
 //================================
 
-real_gas_models::ReadFile::ReadFileError::ReadFileError(int linnum, std::string message)
-  :message_(std::to_string(linnum) + ": "+ message) {}
+real_gas_models::ReadFile::ReadFileError::ReadFileError(int linnum,
+                                                 std::string message)
+  :message_(std::to_string(linnum) + ": " + message) {}

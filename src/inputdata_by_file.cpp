@@ -3,15 +3,15 @@
 #include "filereading.h"
 
 #include <iostream>
-#include <utility>
+
 #include <boost/lexical_cast.hpp>
 
-//count of arguments for
+// count of arguments for
 namespace {
   const size_t CONST_GASP     = 7,
                BALLOON_VF     = 2,
                IN_OUT_BALLOON = 6;
-}
+}  // namespace
 
 //================================
 // InputData ctor
@@ -24,10 +24,9 @@ real_gas_models::InputData::InputData(const std::__cxx11::string &filename)
     }
   try {
     ReadFile d;
-    inputParameters_=(d.parseFile(infile_));
-    //inputParameters_.insert(inputParameters_.end(),d.parseFile(infile_));
+    inputParameters_ = (d.parseFile(infile_));
   } catch(modelExceptions &e) {
-    std::cout << e.what()<< std::endl;
+    std::cout << e.what() << std::endl;
   }
 }
 
@@ -36,14 +35,15 @@ real_gas_models::InputData::InputData(const std::__cxx11::string &filename)
 //================================
 
 std::vector<float> real_gas_models::InputData::getConstgasparameters() {
-  std::vector <float> vec;
+  std::vector<float> vec;
   try {
-    for (size_t i=0; i<CONST_GASP; ++i) {
+    for (size_t i = 0; i < CONST_GASP; ++i) {
         vec.push_back(boost::lexical_cast<double>(inputParameters_[i]));
       }
   } catch (boost::bad_lexical_cast &e) {
     std::cout << e.what();
-    throw modelExceptions ("Cannot convert input data to constgasparameters ctor args");
+    throw modelExceptions(
+        "Cannot convert input data to constgasparameters ctor args");
   }
   return vec;
 }
@@ -53,15 +53,15 @@ std::vector<float> real_gas_models::InputData::getConstgasparameters() {
 //================================
 
 std::pair<float, float> real_gas_models::InputData::getBalloonVF() {
-  std::pair <float,float> pr;
+  std::pair<float, float> pr;
   try {
-    pr= std::make_pair (
+    pr = std::make_pair(
           boost::lexical_cast<double>(inputParameters_[CONST_GASP]),
           boost::lexical_cast<double>(inputParameters_[CONST_GASP + 1])
           );
   } catch (boost::bad_lexical_cast &e) {
     std::cout << e.what() << std::endl;
-    throw modelExceptions ("Cannot convert input data to balloon ctor args");
+    throw modelExceptions("Cannot convert input data to balloon ctor args");
   }
   return pr;
 }
@@ -71,14 +71,16 @@ std::pair<float, float> real_gas_models::InputData::getBalloonVF() {
 //================================
 
 std::vector<float> real_gas_models::InputData::getBalloonParameters() {
-  std::vector <float> vec;
+  std::vector<float> vec;
   try {
-    for (size_t i=CONST_GASP+BALLOON_VF; i<CONST_GASP+BALLOON_VF+IN_OUT_BALLOON; ++i) {
+    for (size_t i = CONST_GASP+BALLOON_VF;
+        i < CONST_GASP+BALLOON_VF + IN_OUT_BALLOON; ++i) {
         vec.push_back(boost::lexical_cast<double>(inputParameters_[i]));
       }
   } catch (boost::bad_lexical_cast &e) {
-    std::cout << e.what()<<std::endl;
-    throw modelExceptions ("Cannot convert input data to [in & out] balloon ctor args");
+    std::cout << e.what() << std::endl;
+    throw modelExceptions(
+        "Cannot convert input data to [in & out] balloon ctor args");
   }
   return vec;
 }
@@ -88,7 +90,7 @@ std::vector<float> real_gas_models::InputData::getBalloonParameters() {
 //================================
 
 std::__cxx11::string real_gas_models::InputData::getFunction() {
-  return inputParameters_[CONST_GASP+BALLOON_VF+IN_OUT_BALLOON];
+  return inputParameters_[CONST_GASP + BALLOON_VF + IN_OUT_BALLOON];
 }
 
 //================================
@@ -96,7 +98,7 @@ std::__cxx11::string real_gas_models::InputData::getFunction() {
 //================================
 
 std::__cxx11::string real_gas_models::InputData::getEquation() {
-  return inputParameters_[CONST_GASP+BALLOON_VF+IN_OUT_BALLOON + 1];
+  return inputParameters_[CONST_GASP + BALLOON_VF + IN_OUT_BALLOON + 1];
 }
 
 //================================
@@ -104,7 +106,7 @@ std::__cxx11::string real_gas_models::InputData::getEquation() {
 //================================
 
 std::__cxx11::string real_gas_models::InputData::getFlowType() {
-  return inputParameters_[CONST_GASP+BALLOON_VF+IN_OUT_BALLOON + 2];
+  return inputParameters_[CONST_GASP + BALLOON_VF + IN_OUT_BALLOON + 2];
 }
 
 //================================
@@ -112,8 +114,9 @@ std::__cxx11::string real_gas_models::InputData::getFlowType() {
 //================================
 
 void real_gas_models::InputData::makeExampleInput() {
-  std::fstream f("exampleinput.txt",std::ios_base::out);
-  f << "# Parameters of the real gas for dynamic calculation (balloon inflow or outflow) \
+  std::fstream f("exampleinput.txt", std::ios_base::out);
+  f <<
+    "# Parameters of the real gas for dynamic calculation (balloon inflow or outflow)\
     \
     # Dimensions : \
     #     - VOLUME      = [m^3/kg] \
